@@ -29,6 +29,7 @@ public class Application extends Controller {
         if(date.compareTo(LocalDate.now()) > 0) {
             return notFound("No peeking ahead!");
         }
+        //TODO: this Friday rounding-off code appears in two places - consolidate/refactor.
         LocalDate lastFriday = date.minusDays((date.getDayOfWeek().getValue() + 2) % 7);
         List<BeerOfTheWeek> beers = BeerOfTheWeek.find.where().eq("epochDay", lastFriday.toEpochDay()).findList();
         if(beers.size() < 1) {

@@ -23,8 +23,8 @@ public class ChooseBeerActor extends UntypedActor {
 
     public void onReceive(Object msg) throws Exception {
         Logger.info("actors.ChooseBeerActor::OnReceive");
-        if (msg instanceof QueryLcbo) {
-            for(int i=0; i<RETRY; i++) {
+        if (msg instanceof QueryLcbo) { // Is this really necessary?
+            for(int i=0; i<RETRY; i++) { // if the product we get is a duplicate we may need to retry.
                 JsonNode node = lcboApiGateway.getRandomBeer();
                 if(node != null) {
                     Long productId = node.get("id").longValue();
@@ -32,8 +32,7 @@ public class ChooseBeerActor extends UntypedActor {
                     if(isDuplicate) {
                         Logger.info("Product ID " + productId + " is a duplicate");
                     }
-                    boolean isBeer = "Beer".equals(node.get("primary_category").textValue());
-                    if(!isDuplicate && isBeer) {
+                    if(!isDuplicate) {
                         LocalDate nextDate;
                         List<BeerOfTheWeek> previous = BeerOfTheWeek.find.orderBy("epochDay desc").findList();
                         if(previous != null && previous.size() > 0) {

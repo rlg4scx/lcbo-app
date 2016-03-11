@@ -8,6 +8,11 @@ import play.Logger;
 import play.libs.F.Promise;
 import play.libs.ws.WS;
 
+/*
+ * Gateway object responsible for calling the LCBO service.
+ * Only exposes one method: `getRandomBeer()`, which requests a random page from the LCBO API
+ * and checks that it's a Beer product before returining the JSON node for that product.
+ */
 public class LcboApiGateway {
 
     private static int perPage = 100;
@@ -19,6 +24,7 @@ public class LcboApiGateway {
         int page = n/perPage + 1;
         Promise<JsonNode> jsonPromise = this.getProducts(page, perPage);
         JsonNode response = jsonPromise.get(10000L);
+        // update the total record count
         totalRecordCount = response.get("pager").get("total_record_count").intValue();
         JsonNode result = response.get("result");
         int offset = n%perPage;
