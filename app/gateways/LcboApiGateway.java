@@ -22,7 +22,7 @@ public class LcboApiGateway {
     public JsonNode getRandomBeer() {
         int  n = rand.nextInt(totalRecordCount);
         int page = n/perPage + 1;
-        Promise<JsonNode> jsonPromise = this.getProducts(page, perPage);
+        Promise<JsonNode> jsonPromise = this.requestProducts(page, perPage);
         JsonNode response = jsonPromise.get(10000L);
         // update the total record count
         totalRecordCount = response.get("pager").get("total_record_count").intValue();
@@ -41,8 +41,25 @@ public class LcboApiGateway {
         Logger.info("Unable to find a Beer product on page " + page + " - retrying");
         return null;
     }
+    
+    public JsonNode getById(int productId) {
+        String productIdParam;
+        try {
+            productIdParam = URLEncoder.encode(Integer.toString(productId), "UTF-8");
+        }
+        catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+        String url = String.format(
+            "http://lcboapi.com/products/%s?store_id=511", productIdParam
+        );
+        Logger.info("Invoking the LCBO API: " + url);
+        return WS.url(url).get().map(response -> {
+            return response.asJson().get("result");
+        }).get(10000L);
+    }
 
-    private Promise<JsonNode> getProducts(int page, int perPage) {
+    private Promise<JsonNode> requestProducts(int page, int perPage) {
         String pageParam;
         String perPageParam;
         try {

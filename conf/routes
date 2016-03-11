@@ -5,6 +5,7 @@
 # Home page
 GET     /                           controllers.Application.index()
 GET     /random                     controllers.Application.random()
+GET     /beer/:productId            controllers.Application.viewBeer(productId: Integer)
 GET     /beer-of-the-week/:epochDay controllers.Application.beerOfTheWeek(epochDay: Long)
 
 # Map static resources from the /public folder to the /assets URL path

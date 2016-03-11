@@ -8,6 +8,7 @@ import play.mvc.*;
 import models.BeerOfTheWeek;
 import services.LcboBeerDiscoveryService;
 import gateways.LcboApiGateway;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import views.html.*;
 
@@ -44,12 +45,18 @@ public class Application extends Controller {
 
     public Result random() {
         Logger.info("controllers.Application::random()");
+        JsonNode node = lcboApiGateway.getRandomBeer();
+        return redirect("/beer/" + node.get("id"));
+    }
+
+    public Result viewBeer(Integer productId) {
+        Logger.info("controllers.Application::viewBeer(Integer)");
         BeerOfTheWeek beer = BeerOfTheWeek.fromJsonNode(
             // cheap hack; just use today's date
             // and don't save the BeerOfTheWeek object
-            lcboApiGateway.getRandomBeer(), LocalDate.now().toEpochDay()
+            lcboApiGateway.getById(productId), LocalDate.now().toEpochDay()
         );
-        return ok(randomBeer.render(beer));
+        return ok(viewBeer.render(beer));
     }
 
 }
