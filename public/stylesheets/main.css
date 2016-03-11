@@ -1,0 +1,30 @@
+#page {
+    width:500px;
+    margin:auto;
+    position:relative;
+}
+#nav {
+    position:absolute;
+    right:0px;
+    top:0px;
+}
+#content {
+    position:relative;
+    margin:auto;
+    width:400px;
+    padding-bottom:20px;
+}
+#content .thumbnail {
+    display:block;
+    margin:auto;
+}
+.prev {
+    position:absolute;
+    left:0;
+    top:100%;
+}
+.next {
+    position:absolute;
+    right:0;
+    top:100%;
+}

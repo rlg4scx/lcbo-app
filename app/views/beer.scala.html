@@ -1,0 +1,12 @@
+@import models.BeerOfTheWeek;
+@(beer: BeerOfTheWeek)
+<img class="thumbnail" src="@(beer.thumbnail)" alt="@(beer.name)" />
+<p>@(beer.name)</p>
+<dl>
+    <dt>Product ID</dt>
+    <dd>@(beer.productId)</dd>
+    <dt>Category</dt>
+    <dd>@(beer.category)</dd>
+    <dt>Producer</dt>
+    <dd>@(beer.producerName)</dd>
+</dl>

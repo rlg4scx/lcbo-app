@@ -1,0 +1,10 @@
+@import models.BeerOfTheWeek;
+@import java.time.LocalDate;
+@(beerOfTheWeek: BeerOfTheWeek, currentDate: LocalDate, prevDate: LocalDate, nextDate: LocalDate)
+
+@main("Welcome to Play") {
+    <h1>Beer for @currentDate</h1>
+    @beer(beerOfTheWeek)
+    <a href="/beer-of-the-week/@(prevDate.toEpochDay())" class="prev">Previous Week</a>
+    <a href="/beer-of-the-week/@(nextDate.toEpochDay())" class="next">Next Week</a>
+}

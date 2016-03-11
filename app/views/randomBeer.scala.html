@@ -1,0 +1,9 @@
+@import models.BeerOfTheWeek;
+@(randomBeer: BeerOfTheWeek)
+
+
+
+@main("Welcome to Play") {
+    <h1>Random Beer!</h1>
+    @beer(randomBeer)
+}
